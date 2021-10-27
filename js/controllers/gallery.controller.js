@@ -9,7 +9,7 @@ function renderGallery() {
   var elGallery = document.querySelector('.gallery')
   var strHtmls = images.map((img) => {
     return `<figure
-     class="gallery-item">
+     class="gallery-item gallery-item${img.id}">
      <img src="${img.url}" alt="${img.url}" class="gallery-img" onclick="onMemeSelect(${img.id})"/>
      </figure>`
   })

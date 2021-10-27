@@ -14,6 +14,13 @@ function createMeme(memeIdx) {
         color: 'red',
         pos: 'top',
       },
+      {
+        txt: '',
+        size: 50,
+        align: 'left',
+        color: 'red',
+        pos: 'bottom',
+      },
     ],
   }
 }
@@ -52,5 +59,4 @@ function getLinePos() {
 
 function setLinePos(pos) {
   gMeme['lines'][gMeme.selectedLineIdx].pos = pos
-  console.log(gMeme['lines'][gMeme.selectedLineIdx].pos)
 }

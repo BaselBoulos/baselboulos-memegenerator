@@ -19,7 +19,6 @@ function drawMeme(memeIdx) {
 
 function drawText() {
   const linePos = getLinePos()
-  console.log(linePos)
   const txt = getMemeTxt()
   const fontSize = getFontSize()
   gCtx.font = `${fontSize}px IMPACT`
@@ -45,8 +44,8 @@ function drawText() {
   }
 }
 
-function onUpdateTxt() {
-  var newTxt = document.querySelector('.meme-txt-input').value
+function onAddLine() {
+  var newTxt = document.querySelector('.line-input').value
   setMemeTxt(newTxt)
   drawMeme(getCurrMemeIdx())
 }

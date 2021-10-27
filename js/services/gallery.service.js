@@ -18,11 +18,6 @@ var gImgs = [
     url: 'img/2.jpg',
     keywords: ['animal'],
   },
-  {
-    id: gImgId++,
-    url: 'img/3.jpg',
-    keywords: ['animal', 'happy'],
-  },
 ]
 
 function getMemeImg(memeIdx) {

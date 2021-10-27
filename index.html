@@ -5,31 +5,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meme Generator - Basel</title>
+    <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/gallery.css" />
   </head>
   <body onload="onInit()">
-    <div class="canvas-container">
+    <header class="main-header">
+      <div class="header-container main-layout">
+        <div class="logo">BaselMemes</div>
+        <ul class="main-nav clean-list">
+          <li><a href="#" class="gallery-nav">Gallery</a></li>
+          <li><a href="#">Memes</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </div>
+    </header>
+    <main class="main-content main-layout">
+      <div class="canvas-container"></div>
       <canvas
         class="meme-canvas"
         height="520"
         width="720"
         style="border: 1px solid #000000"
       ></canvas>
-    </div>
-    <section class="control-box">
-      <label for="meme-txt-input">Text:</label>
-      <input type="text" class="meme-txt-input" name="meme-txt-input" />
-      <button onclick="onUpdateTxt()">Add Txt</button>
-      <button class="increase-font" onclick="OnFontChange(3)">
-        Increase Font
-      </button>
-      <button class="decrease-font" onclick="OnFontChange(-3)">
-        Decrease Font
-      </button>
-      <button class="up-btn" onclick="onMoveLine('top')">Up</button>
-      <button class="down-btn" onclick="onMoveLine('bottom')">Down</button>
+      <section class="control-box">
+        <div class="control-input">
+          <input
+            type="text"
+            class="line-input"
+            placeholder="text"
+            name="line-input"
+            oninput="onAddLine()"
+          />
+        </div>
+        <div class="control-line">
+          <button class="up-btn" onclick="onMoveLine('top')">Up</button>
+          <button class="down-btn" onclick="onMoveLine('bottom')">Down</button>
+          <button class="switch-btn" onclick="">Switch</button>
+        </div>
+        <div class="control-text">
+          <button class="increase-font" onclick="OnFontChange(3)">
+            Increase Font
+          </button>
+          <button class="decrease-font" onclick="OnFontChange(-3)">
+            Decrease Font
+          </button>
+        </div>
+      </section>
+    </main>
+    <section>
+      <div class="gallery"></div>
     </section>
-    <div class="gallery"></div>
+    <footer class="main-footer">
+      <div class="footer-container main-layout">
+        <div class="copyrights">
+          © 2021 Basel Boulos - Sprint 2 Coding Academy
+        </div>
+      </div>
+    </footer>
     <script src="js/services/meme.service.js"></script>
     <script src="js/services/gallery.service.js"></script>
     <script src="js/controllers/meme.controller.js"></script>
