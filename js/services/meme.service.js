@@ -1,45 +1,56 @@
 'use strict'
 
-var gKeywords = {
-  happy: 1,
-  animal: 1,
+var gMeme
+
+function createMeme(memeIdx) {
+  gMeme = {
+    selectedImgId: memeIdx,
+    selectedLineIdx: 0,
+    lines: [
+      {
+        txt: '',
+        size: 50,
+        align: 'left',
+        color: 'red',
+        pos: 'top',
+      },
+    ],
+  }
 }
 
-var gImgs = [
-  {
-    id: 1,
-    url: 'img/1.jpg',
-    keywords: ['happy'],
-  },
-  {
-    id: 2,
-    url: 'img/2.jpg',
-    keywords: ['animal'],
-  },
-]
-
-var gMeme = {
-  selectedImgId: 2,
-  selectedLineIdx: 0,
-  lines: [
-    {
-      txt: '',
-      size: 20,
-      align: 'left',
-      color: 'red',
-    },
-  ],
-}
-
-function getMemeImg() {
-  const memeImg = gImgs.find((img) => img.id === gMeme.selectedImgId)
+function getImgUrl(memeIdx) {
+  const memeImg = getMemeImg(memeIdx)
   return memeImg.url
 }
 
+function getCurrMemeIdx() {
+  return gMeme.selectedImgId
+}
+
 function getMemeTxt() {
-  return gMeme['lines'][0].txt
+  return gMeme['lines'][gMeme.selectedLineIdx].txt
 }
 
 function setMemeTxt(newTxt) {
-  gMeme['lines'][0].txt = newTxt
+  gMeme['lines'][gMeme.selectedLineIdx].txt = newTxt
+}
+
+function getFontSize() {
+  return gMeme['lines'][gMeme.selectedLineIdx].size
+}
+
+function setFontSize(diff) {
+  const currSize = gMeme['lines'][gMeme.selectedLineIdx].size
+  if (currSize > 3) {
+    gMeme['lines'][gMeme.selectedLineIdx].size += diff
+  }
+}
+
+function getLinePos() {
+  return gMeme['lines'][gMeme.selectedLineIdx].pos
+}
+
+function setLinePos(pos) {
+  gMeme['lines'][gMeme.selectedLineIdx].pos = pos
+  console.log(gMeme['lines'][gMeme.selectedLineIdx].pos)
 }

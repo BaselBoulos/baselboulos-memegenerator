@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meme Generator - Basel</title>
-    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/gallery.css" />
   </head>
   <body onload="onInit()">
     <div class="canvas-container">
@@ -16,10 +16,24 @@
         style="border: 1px solid #000000"
       ></canvas>
     </div>
-    <label for="meme-txt-input">Text:</label>
-    <input type="text" class="meme-txt-input" name="meme-txt-input" />
-    <button onclick="onUpdateTxt()">Generate</button>
-    <script src="js/controllers/meme.controller.js"></script>
+    <section class="control-box">
+      <label for="meme-txt-input">Text:</label>
+      <input type="text" class="meme-txt-input" name="meme-txt-input" />
+      <button onclick="onUpdateTxt()">Add Txt</button>
+      <button class="increase-font" onclick="OnFontChange(3)">
+        Increase Font
+      </button>
+      <button class="decrease-font" onclick="OnFontChange(-3)">
+        Decrease Font
+      </button>
+      <button class="up-btn" onclick="onMoveLine('top')">Up</button>
+      <button class="down-btn" onclick="onMoveLine('bottom')">Down</button>
+    </section>
+    <div class="gallery"></div>
     <script src="js/services/meme.service.js"></script>
+    <script src="js/services/gallery.service.js"></script>
+    <script src="js/controllers/meme.controller.js"></script>
+    <script src="js/controllers/gallery.controller.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
