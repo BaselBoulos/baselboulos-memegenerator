@@ -7,7 +7,19 @@
     <title>Meme Generator - Basel</title>
     <link rel="stylesheet" href="styles/main.css" />
   </head>
-  <body>
-    <script src="js/main.js"></script>
+  <body onload="onInit()">
+    <div class="canvas-container">
+      <canvas
+        class="meme-canvas"
+        height="520"
+        width="720"
+        style="border: 1px solid #000000"
+      ></canvas>
+    </div>
+    <label for="meme-txt-input">Text:</label>
+    <input type="text" class="meme-txt-input" name="meme-txt-input" />
+    <button onclick="onUpdateTxt()">Generate</button>
+    <script src="js/controllers/meme.controller.js"></script>
+    <script src="js/services/meme.service.js"></script>
   </body>
 </html>
