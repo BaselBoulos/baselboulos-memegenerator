@@ -26,10 +26,13 @@ a {
   cursor: pointer;
 }
 
+/* BASIC */
+
 button {
+  all: unset;
   cursor: pointer;
-  height: 50px;
 }
+
 /* LAYOUT */
 
 .main-layout {
@@ -82,7 +85,7 @@ button {
 
 .main-content {
   background-color: #383b42;
-  display: flex;
+  /* display: flex; */
   border: 2px solid white;
 }
 
@@ -101,20 +104,15 @@ button {
   height: 73px;
 }
 
-/* Control box */
-
-.control-box {
-  width: 520px;
-  height: 520px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 /* List helpers */
 
 .clean-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+/* property used to hide elements */
+.hidden {
+  display: none;
 }

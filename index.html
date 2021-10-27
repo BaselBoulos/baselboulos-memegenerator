@@ -7,6 +7,7 @@
     <title>Meme Generator - Basel</title>
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/gallery.css" />
+    <link rel="stylesheet" href="styles/editor.css" />
   </head>
   <body onload="onInit()">
     <header class="main-header">
@@ -19,39 +20,62 @@
         </ul>
       </div>
     </header>
+
     <main class="main-content main-layout">
-      <div class="canvas-container"></div>
-      <canvas
-        class="meme-canvas"
-        height="520"
-        width="720"
-        style="border: 1px solid #000000"
-      ></canvas>
-      <section class="control-box">
-        <div class="control-input">
-          <input
-            type="text"
-            class="line-input"
-            placeholder="text"
-            name="line-input"
-            oninput="onAddLine()"
-          />
-        </div>
-        <div class="control-line">
-          <button class="up-btn" onclick="onMoveLine('top')">Up</button>
-          <button class="down-btn" onclick="onMoveLine('bottom')">Down</button>
-          <button class="switch-btn" onclick="">Switch</button>
-        </div>
-        <div class="control-text">
-          <button class="increase-font" onclick="OnFontChange(3)">
-            Increase Font
-          </button>
-          <button class="decrease-font" onclick="OnFontChange(-3)">
-            Decrease Font
-          </button>
-        </div>
-      </section>
+      <div class="editor-panel">
+        <section class="canvas-container">
+          <canvas class="meme-canvas" height="476" width="546"></canvas>
+        </section>
+
+        <section class="control-box">
+          <div class="inputs-container">
+            <input
+              type="text"
+              placeholder="Selected line value"
+              name="line-input"
+              oninput="onAddLine()"
+            />
+          </div>
+
+          <div class="line-controls">
+            <button class="moveup-btn" onclick="onMoveLine('top')">Up</button>
+            <button class="movedown-btn" onclick="onMoveLine('bottom')">
+              Down
+            </button>
+            <button class="switch-btn">Switch</button>
+            <button class="add-btn" onclick=""><span>+</span></button>
+            <button class="delete-btn">Delete</button>
+          </div>
+
+          <div class="control-line">
+            <div class="text-aligns">
+              <button class="increase-font" onclick="OnFontChange(3)">
+                A+
+              </button>
+              <button class="decrease-font" onclick="OnFontChange(-3)">
+                A-
+              </button>
+              <button class="align-left" onclick="OnFontChange(3)"><</button>
+              <button class="align-center" onclick="OnFontChange(3)">||</button>
+              <button class="align-right" onclick="OnFontChange(3)">></button>
+            </div>
+            <div>
+              <select class="select-font">
+                <option>IMPACT</option>
+              </select>
+              <button class="stroke-color">S</button>
+              <button class="font-color">F</button>
+            </div>
+          </div>
+          <div class="stickers">HERE IS STICKERS</div>
+          <div class="handle-meme">
+            <button class="share-btn">Share</button>
+            <button class="download-btn">Download</button>
+          </div>
+        </section>
+      </div>
     </main>
+
     <section>
       <div class="gallery"></div>
     </section>

@@ -2,5 +2,5 @@
 
 function onInit() {
   onInitMemes()
-  onInitGallery()
+  // onInitGallery()
 }
