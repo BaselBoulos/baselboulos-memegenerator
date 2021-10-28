@@ -18,6 +18,46 @@ var gImgs = [
     url: 'img/2.jpg',
     keywords: ['animal'],
   },
+  {
+    id: gImgId++,
+    url: 'img/3.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/4.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/5.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/6.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/7.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/8.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/9.jpg',
+    keywords: ['animal'],
+  },
+  {
+    id: gImgId++,
+    url: 'img/10.jpg',
+    keywords: ['animal'],
+  },
 ]
 
 function getMemeImg(memeIdx) {
@@ -25,6 +65,6 @@ function getMemeImg(memeIdx) {
   return memeImg
 }
 
-function getImgs() {
+function getImgsForDisplay() {
   return gImgs
 }

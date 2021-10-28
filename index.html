@@ -10,84 +10,128 @@
     <link rel="stylesheet" href="styles/editor.css" />
   </head>
   <body onload="onInit()">
+    <div class="main-screen" onclick="toggleMenu()"></div>
     <header class="main-header">
-      <div class="header-container main-layout">
-        <div class="logo">BaselMemes</div>
-        <ul class="main-nav clean-list">
-          <li><a href="#" class="gallery-nav">Gallery</a></li>
+      <div class="header-container main-layout flex align-center space-between">
+        <div class="logo">memes4ever</div>
+        <ul class="main-nav clean-list flex">
+          <li>
+            <a href="#" onclick="onShowGallery()" class="gallery-nav"
+              >Gallery</a
+            >
+          </li>
           <li><a href="#">Memes</a></li>
           <li><a href="#">About</a></li>
         </ul>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
       </div>
     </header>
 
     <main class="main-content main-layout">
-      <div class="editor-panel">
+      <div class="editor-panel flex hidden">
         <section class="canvas-container">
-          <canvas class="meme-canvas" height="476" width="546"></canvas>
+          <canvas class="meme-canvas" width="546" height="476"></canvas>
+          <!-- <canvas class="meme-canvas"></canvas> -->
         </section>
 
-        <section class="control-box">
-          <div class="inputs-container">
-            <input
-              type="text"
-              placeholder="Selected line value"
-              name="line-input"
-              oninput="onAddLine()"
-            />
-          </div>
+        <section class="control-box flex align-center space-between">
+          <input
+            type="text"
+            placeholder="CAN’T GET FIRED"
+            name="line-input"
+            class="line-input"
+            oninput="onAddLine(this.value)"
+          />
 
-          <div class="line-controls">
-            <button class="moveup-btn" onclick="onMoveLine('top')">Up</button>
-            <button class="movedown-btn" onclick="onMoveLine('bottom')">
-              Down
-            </button>
-            <button class="switch-btn">Switch</button>
+          <div class="line-controls flex align-center space-between">
+            <button class="moveup-btn" onclick="onMoveLine('top')"></button>
+            <button
+              class="movedown-btn"
+              onclick="onMoveLine('bottom')"
+            ></button>
+            <button class="switch-btn" onclick="onSwitchLine()"></button>
             <button class="add-btn" onclick=""><span>+</span></button>
-            <button class="delete-btn">Delete</button>
+            <button class="delete-btn"></button>
           </div>
 
-          <div class="control-line">
-            <div class="text-aligns">
-              <button class="increase-font" onclick="OnFontChange(3)">
+          <div class="text-controls flex align-center">
+            <div class="text-aligns flex space-between">
+              <button class="increase-font" onclick="onFontSizeChange(3)">
                 A+
               </button>
-              <button class="decrease-font" onclick="OnFontChange(-3)">
+              <button class="decrease-font" onclick="onFontSizeChange(-3)">
                 A-
               </button>
-              <button class="align-left" onclick="OnFontChange(3)"><</button>
-              <button class="align-center" onclick="OnFontChange(3)">||</button>
-              <button class="align-right" onclick="OnFontChange(3)">></button>
+              <button
+                class="align-left"
+                onclick="onChangeAlign('left')"
+              ></button>
+              <button
+                class="align-center"
+                onclick="onChangeAlign('center')"
+              ></button>
+              <button
+                class="align-right"
+                onclick="onChangeAlign('right')"
+              ></button>
             </div>
-            <div>
-              <select class="select-font">
-                <option>IMPACT</option>
+            <div class="text-customs flex space-between">
+              <select class="select-font" onchange="onChangeFont(this.value)">
+                <option value="impact">IMPACT</option>
+                <option value="arial">ARIAL</option>
+                <option value="monospace">MONOSPACE</option>
               </select>
-              <button class="stroke-color">S</button>
-              <button class="font-color">F</button>
+              <button class="stroke-color">
+                S
+                <input
+                  type="color"
+                  value="#000000"
+                  class="stroke-input"
+                  onchange="onChangeStroke(this.value)"
+                />
+              </button>
+              <button class="font-color">
+                <input
+                  type="color"
+                  value="#ffffff"
+                  class="fontcolor-input"
+                  onchange="onChangeFontColor(this.value)"
+                />
+              </button>
             </div>
           </div>
-          <div class="stickers">HERE IS STICKERS</div>
-          <div class="handle-meme">
-            <button class="share-btn">Share</button>
-            <button class="download-btn">Download</button>
+
+          <div class="stickers-container">HERE IS STICKERS</div>
+
+          <div class="social-container flex align-center">
+            <button class="share-btn" onclick="onShareMeme()">Share</button>
+            <a
+              href="#"
+              class="download"
+              download="my-meme.jpg"
+              onclick="onDownload(this)"
+            >
+              Download
+            </a>
           </div>
         </section>
       </div>
     </main>
-
-    <section>
+    <div class="gallery-container main-layout">
       <div class="gallery"></div>
-    </section>
+    </div>
+
     <footer class="main-footer">
-      <div class="footer-container main-layout">
+      <div class="footer-container main-layout flex align-center center">
         <div class="copyrights">
           © 2021 Basel Boulos - Sprint 2 Coding Academy
         </div>
       </div>
     </footer>
+
     <script src="js/services/meme.service.js"></script>
     <script src="js/services/gallery.service.js"></script>
+    <script src="js/services/upload.service.js"></script>
     <script src="js/controllers/meme.controller.js"></script>
     <script src="js/controllers/gallery.controller.js"></script>
     <script src="js/main.js"></script>

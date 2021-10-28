@@ -5,7 +5,7 @@ function onInitGallery() {
 }
 
 function renderGallery() {
-  const images = getImgs()
+  const images = getImgsForDisplay()
   var elGallery = document.querySelector('.gallery')
   var strHtmls = images.map((img) => {
     return `<figure
@@ -14,4 +14,9 @@ function renderGallery() {
      </figure>`
   })
   elGallery.innerHTML = strHtmls.join('')
+}
+
+function onShowGallery() {
+  document.querySelector('.gallery-container').classList.remove('hidden')
+  document.querySelector('.editor-panel').classList.add('hidden')
 }

@@ -1,6 +1,10 @@
 'use strict'
 
 function onInit() {
-  onInitMemes()
-  // onInitGallery()
+  onInitEditor()
+  onInitGallery()
+}
+
+function toggleMenu() {
+  document.body.classList.toggle('menu-open')
 }
