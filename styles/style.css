@@ -10,24 +10,24 @@
 
 @font-face {
   font-family: poppins-light;
-  src: url(/fonts/Poppins-Medium.ttf);
+  src: url(../fonts/Poppins-Light.ttf);
 }
 
 /* Font Awesome */
 
 @font-face {
   font-family: fa-brand;
-  src: url(/fonts/fa/fa-brands-400.ttf);
+  src: url(../fonts/fa/fa-brands-400.ttf);
 }
 
 @font-face {
   font-family: fa-regular;
-  src: url(/fonts/fa/fa-regular-400.ttf);
+  src: url(../fonts/fa/fa-regular-400.ttf);
 }
 
 @font-face {
   font-family: fa-solid;
-  src: url(/fonts/fa/fa-solid-900.ttf);
+  src: url(../fonts/fa/fa-solid-900.ttf);
 }
 
 /* BASIC */
