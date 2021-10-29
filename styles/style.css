@@ -33,7 +33,9 @@
 /* BASIC */
 
 html {
-  background: linear-gradient(#f64f8b, #f88558);
+  /* background: linear-gradient(#f64f8b, #f88558); */
+  background-color: #4834d4;
+  background-image: linear-gradient(315deg, #4834d4 0%, #0c0c0c 74%);
   font-family: poppins-light;
 }
 
@@ -65,7 +67,9 @@ button {
 
 .main-header {
   margin: 15px 7px;
-  background-color: #33be6d;
+  /* background: linear-gradient(to left, #33be6d, #0c98b9); */
+  background-color: #000000;
+  background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
   border-radius: 36.5px;
 }
 
@@ -97,13 +101,16 @@ button {
 /* FOOTER */
 
 .main-footer {
-  background-color: #33be6d;
+  /* background: linear-gradient(to left, #33be6d, #0c98b9); */
+  background-color: #000000;
+  background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
   margin: 15px 7px;
   border-radius: 36.5px;
 }
 
 .main-footer .copyrights {
-  font-size: 0.812rem;
+  color: white;
+  font-size: 1.2rem;
 }
 
 /* HELPERS */

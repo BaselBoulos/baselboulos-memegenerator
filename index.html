@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/gallery.css" />
     <link rel="stylesheet" href="styles/editor.css" />
+    <link rel="stylesheet" href="styles/memes.css" />
   </head>
   <body onload="onInit()">
     <div class="main-screen" onclick="toggleMenu()"></div>
@@ -20,7 +21,7 @@
               >Gallery</a
             >
           </li>
-          <li><a href="#">Memes</a></li>
+          <li><a href="#" onclick="loadSavedMemes()">Memes</a></li>
           <li><a href="#">About</a></li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
@@ -31,7 +32,6 @@
       <div class="editor-panel flex hidden">
         <section class="canvas-container">
           <canvas class="meme-canvas" width="546" height="476"></canvas>
-          <!-- <canvas class="meme-canvas"></canvas> -->
         </section>
 
         <section class="control-box flex align-center space-between">
@@ -40,19 +40,18 @@
             placeholder="NEW TEXT"
             name="line-input"
             class="line-input"
-            oninput=""
+            oninput="onEditLine(this.value)"
+            onfocus="editMode('on')"
+            onfocusout="editMode('off')"
+            readonly
           />
-
           <div class="line-controls flex align-center space-between">
             <button class="moveup-btn" onclick="onMoveLine('-10')"></button>
             <button class="movedown-btn" onclick="onMoveLine('10')"></button>
             <button class="switch-btn" onclick="onSwitchLine()"></button>
-            <button class="add-btn" onclick="onAddLine()">
-              <span>+</span>
-            </button>
+            <button class="add-btn" onclick="onAddLine()">+</button>
             <button class="delete-btn" onclick="onDeleteLine()"></button>
           </div>
-
           <div class="text-controls flex align-center">
             <div class="text-aligns flex space-between">
               <button class="increase-font" onclick="onFontSizeChange(3)">
@@ -112,14 +111,43 @@
             >
               Download
             </a>
+            <input
+              class="upload"
+              type="file"
+              onchange="onImgInput(event)"
+              hidden
+            />
+            <input
+              class="upload-btn"
+              type="button"
+              value="Upload"
+              onclick="uploadImgToCanvas()"
+            />
+            <button onclick="saveMeme()">Save</button>
           </div>
         </section>
       </div>
     </main>
+
     <div class="gallery-container main-layout">
+      <div class="search-container flex align-center space-between">
+        <input
+          type="search"
+          class="search-input"
+          oninput="onSetFilter(this.value)"
+          placeholder="Search category"
+          list="category-list"
+        />
+        <datalist id="category-list"></datalist>
+
+        <div class="search-keywords flex align-center space-between"></div>
+      </div>
       <div class="gallery"></div>
     </div>
 
+    <div class="saved-container main-layout hidden">
+      <div class="saved-gallery"></div>
+    </div>
     <footer class="main-footer">
       <div class="footer-container main-layout flex align-center center">
         <div class="copyrights">
@@ -131,6 +159,7 @@
     <script src="js/services/meme.service.js"></script>
     <script src="js/services/gallery.service.js"></script>
     <script src="js/services/upload.service.js"></script>
+    <script src="js/services/storage.service.js"></script>
     <script src="js/controllers/meme.controller.js"></script>
     <script src="js/controllers/gallery.controller.js"></script>
     <script src="js/main.js"></script>

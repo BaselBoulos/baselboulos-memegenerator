@@ -9,6 +9,7 @@
 
 .meme-canvas {
   border-radius: 10px;
+  cursor: grab;
 }
 
 /* Control box */

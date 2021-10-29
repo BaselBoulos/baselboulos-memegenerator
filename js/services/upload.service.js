@@ -2,13 +2,9 @@
 
 function uploadImg() {
   const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
-
-  // A function to be called if request succeeds
   function onSuccess(uploadedImgUrl) {
     const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}`
-    )
+    share(encodedUploadedImgUrl)
   }
   doUploadImg(imgDataUrl, onSuccess)
 }
@@ -28,4 +24,21 @@ function doUploadImg(imgDataUrl, onSuccess) {
     .catch((err) => {
       console.error(err)
     })
+}
+
+function share(url) {
+  console.log(url)
+  if (navigator.share) {
+    navigator
+      .share({
+        title: 'LMAO THIS MEME IS FUNNY',
+        url,
+      })
+      .then(() => {
+        console.log('Thanks for sharing')
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 }

@@ -2,18 +2,16 @@
 
 var gElCanvas
 var gCtx
-const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
-
-function onInitEditor() {
-  gElCanvas = document.querySelector('.meme-canvas')
-  gCtx = gElCanvas.getContext('2d')
-  addListeners()
-}
+var gStartMovePos
+var gSavedMemes = []
 
 function onMemeSelect(memeIdx) {
+  gElCanvas = document.querySelector('.meme-canvas')
+  gCtx = gElCanvas.getContext('2d')
   document.querySelector('.editor-panel').classList.remove('hidden')
   document.querySelector('.gallery-container').classList.add('hidden')
   createMeme(memeIdx)
+  addListeners()
   drawMeme()
 }
 
@@ -21,38 +19,63 @@ function drawMeme() {
   var memeImg = new Image()
   memeImg.onload = () => {
     gCtx.drawImage(memeImg, 0, 0, gElCanvas.width, gElCanvas.height)
-    let lines = getMemeLines()
-    lines.map((line) => drawText(line))
+    drawLines()
   }
   memeImg.src = getImgUrl()
 }
 
-function drawText(line) {
-  var { txt, size, align, color, strokeColor, direction, fontType, pos } = line
-  gCtx.lineWidth = 2
-  gCtx.strokeStyle = strokeColor
-  gCtx.fillStyle = color
-  gCtx.font = `${size}px ${fontType}`
-  gCtx.textAlign = align
-  gCtx.textBaseline = direction
-  gCtx.fillText(txt, pos.x, pos.y, gElCanvas.width)
-  gCtx.strokeText(txt, pos.x, pos.y, gElCanvas.width)
-  drawAroundTxt()
+function drawLines() {
+  let lines = getMemeLines()
+  if (!lines.length) return
+  lines.map((line) => {
+    var { txt, size, align, color, strokeColor, direction, fontType, pos } =
+      line
+    gCtx.lineWidth = 2
+    gCtx.strokeStyle = strokeColor
+    gCtx.fillStyle = color
+    gCtx.font = `${size}px ${fontType}`
+    gCtx.textAlign = align
+    gCtx.textBaseline = direction
+    gCtx.fillText(txt, pos.x, pos.y, gElCanvas.width)
+    gCtx.strokeText(txt, pos.x, pos.y, gElCanvas.width)
+  })
+  _drawAroundSelectedLine()
 }
 
-function drawAroundTxt() {
-  var { txt, pos, size } = getCurrLine()
+function _drawAroundSelectedLine() {
+  var { txt, pos, size, direction } = getCurrLine()
   setLineWidth(gCtx.measureText(txt).width)
   var LineWidth = getLineWidth()
-  gCtx.strokeStyle = 'white'
-  gCtx.strokeRect(pos.x - LineWidth, pos.y - size, LineWidth * 2, size * 2)
+  gCtx.strokeStyle = 'red'
+  var borderY = pos.y - 20
+  if (direction === 'top') borderY = pos.y - 5
+  if (direction === 'bottom') borderY = pos.y - size - 5
+  gCtx.strokeRect(pos.x - LineWidth, borderY, LineWidth * 2, size + 10)
+}
+
+// continue organizin from here
+
+function editMode(isEdit) {
+  var elTxtInput = document.querySelector('.line-input')
+  var txt = getLineTxt()
+  if (!txt) addLine(elTxtInput.placeholder)
+  if (isEdit === 'on') {
+    elTxtInput.value = getLineTxt()
+    elTxtInput.removeAttribute('readonly')
+  } else elTxtInput.value = ''
+  drawMeme()
 }
 
 function onAddLine() {
-  var txt = document.querySelector('.line-input').value
-  if (!txt) return
-  addLine(txt)
-  onSwitchLine()
+  var elTxtInput = document.querySelector('.line-input')
+  // var txt = elTxtInput.value
+  // if (!txt) txt = elTxtInput.placeholder
+  addLine(elTxtInput.placeholder)
+  drawMeme()
+}
+
+function onEditLine(newTxt) {
+  setLineTxt(newTxt)
   drawMeme()
 }
 
@@ -67,9 +90,10 @@ function onMoveLine(diff) {
 }
 
 function onSwitchLine() {
-  setLineIdx()
-  drawMeme()
+  if (!getLineTxt()) return
+  switchLine()
   document.querySelector('.line-input').value = getLineTxt()
+  drawMeme()
 }
 
 function onChangeAlign(align) {
@@ -107,28 +131,40 @@ function onDeleteLine() {
 }
 
 function addListeners() {
-  addMouseListeners()
-  addTouchListeners()
-}
-
-function addMouseListeners() {
-  // gElCanvas.addEventListener('mousemove', onMove)
   gElCanvas.addEventListener('mousedown', onDown)
-  // gElCanvas.addEventListener('mouseup', onUp)
-}
-
-function addTouchListeners() {
-  // gElCanvas.addEventListener('touchmove', onMove)
   gElCanvas.addEventListener('touchstart', onDown)
-  // gElCanvas.addEventListener('touchend', onUp)
+  gElCanvas.addEventListener('mouseup', onUp)
+  gElCanvas.addEventListener('touchend', onUp)
+  gElCanvas.addEventListener('mousemove', onMove)
+  gElCanvas.addEventListener('touchmove', onMove)
 }
 
 function onDown(ev) {
   const pos = getEvPos(ev)
-  if (!isLineClicked(pos)) return
-  setCircleDrag(true)
-  gStartPos = pos
-  document.body.style.cursor = 'grabbing'
+  if (!checkPos(pos)) return
+  setLineDrag(true)
+  gStartMovePos = pos
+  document.querySelector('.meme-canvas').style.cursor = 'grabbing'
+  document.querySelector('.line-input').value = getLineTxt()
+  drawMeme()
+}
+
+function onUp() {
+  setLineDrag(false)
+  document.querySelector('.meme-canvas').style.cursor = 'grab'
+}
+
+function onMove(ev) {
+  const line = getCurrLine()
+  if (!line) return
+  if (line.isDrag) {
+    const pos = getEvPos(ev)
+    const dx = pos.x - gStartMovePos.x
+    const dy = pos.y - gStartMovePos.y
+    gStartMovePos = pos
+    moveLine(dx, dy)
+    drawMeme()
+  }
 }
 
 function getEvPos(ev) {
@@ -136,13 +172,32 @@ function getEvPos(ev) {
     x: ev.offsetX,
     y: ev.offsetY,
   }
-  if (gTouchEvs.includes(ev.type)) {
-    ev.preventDefault()
-    ev = ev.changedTouches[0]
-    pos = {
-      x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-      y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
-    }
-  }
   return pos
+}
+
+// Not working
+function saveMeme() {
+  var meme = getCurrMeme()
+  gSavedMemes.push(meme)
+  saveToStorage('memesDB', gSavedMemes)
+}
+
+function loadSavedMemes() {
+  document.querySelector('.gallery-container').classList.add('hidden')
+  document.querySelector('.editor-panel').classList.add('hidden')
+  var memes = loadFromStorage('memesDB')
+  var memesImgs = getSavedImgs(memes)
+  renderSaved(memesImgs)
+}
+
+function renderSaved(images) {
+  // if (!images) var images = getImgsForDisplay()
+  var elSavedGallery = document.querySelector('.saved-gallery')
+  var strHtmls = images.map((img) => {
+    return `<figure
+     class="gallery-item gallery-item${img.id}">
+     <img src="${img.url}" alt="${img.url}" class="gallery-img img-${img.id}" onclick="onMemeSelect(${img.id})"/>
+     </figure>`
+  })
+  elSavedGallery.innerHTML = strHtmls.join('')
 }
