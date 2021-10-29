@@ -25,7 +25,7 @@
 .control-box .line-input {
   all: unset;
   text-align: center;
-  width: 80%;
+  width: 90%;
   height: 3.43em;
   color: #3d3d3d;
   background-color: #ebeef3;
@@ -35,10 +35,10 @@
 
 /* Line controls */
 
-.line-controls {
+/* .line-controls {
   justify-content: center;
-  width: 80%;
-}
+  width: 90%;
+} */
 
 .line-controls button {
   all: unset;
@@ -96,7 +96,7 @@
 /* Text Controls */
 
 .control-box .text-controls {
-  width: 80%;
+  width: 90%;
   flex-direction: column;
   border-radius: 0.937em;
   background-color: #19a59f;
@@ -104,7 +104,7 @@
 
 .control-box .text-aligns,
 .text-customs {
-  width: 80%;
+  width: 90%;
   margin: 0.625em;
 }
 
@@ -158,7 +158,7 @@ select {
 /* STICKERS */
 
 .stickers-container {
-  width: 80%;
+  width: 90%;
   background-color: red;
 }
 
@@ -167,7 +167,7 @@ select {
 .control-box .social-container {
   margin-bottom: 0.93em;
   justify-content: space-between;
-  width: 80%;
+  width: 90%;
   gap: 10px;
 }
 
@@ -204,7 +204,7 @@ select {
   .editor-panel {
     flex-direction: column;
   }
-  /* .meme-canvas {
+  .meme-canvas {
     width: 100%;
-  } */
+  }
 }

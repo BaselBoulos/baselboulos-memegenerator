@@ -2,141 +2,94 @@
 
 var gElCanvas
 var gCtx
+const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 
 function onInitEditor() {
   gElCanvas = document.querySelector('.meme-canvas')
   gCtx = gElCanvas.getContext('2d')
+  addListeners()
 }
 
 function onMemeSelect(memeIdx) {
   document.querySelector('.editor-panel').classList.remove('hidden')
   document.querySelector('.gallery-container').classList.add('hidden')
-  // resizeCanvas()
   createMeme(memeIdx)
-  drawMeme(memeIdx)
+  drawMeme()
 }
 
-function resizeCanvas() {
-  var elContainer = document.querySelector('.canvas-container')
-  gElCanvas.width = elContainer.offsetWidth
-  gElCanvas.height = elContainer.offsetHeight
-}
-
-function drawMeme(memeIdx) {
+function drawMeme() {
   var memeImg = new Image()
   memeImg.onload = () => {
     gCtx.drawImage(memeImg, 0, 0, gElCanvas.width, gElCanvas.height)
-    // drawText()
-    renderTexts()
+    let lines = getMemeLines()
+    lines.map((line) => drawText(line))
   }
-  memeImg.src = getImgUrl(memeIdx)
-}
-
-function renderTexts() {
-  console.log(getMemeTxt(0))
-  // to render texts i need the lines array
-  var lines = getMemeLines()
-  // then i need to go over each line
-  lines.map((line) => drawText(line))
-  // and make drawtext to each line
-  // with it's txt,font,etc
+  memeImg.src = getImgUrl()
 }
 
 function drawText(line) {
-  console.log(line)
-  gCtx.font = `${line.size}px ${line.fontType}`
-  gCtx.fillStyle = line.color
-  gCtx.strokeStyle = line.strokeStyle
+  var { txt, size, align, color, strokeColor, direction, fontType, pos } = line
   gCtx.lineWidth = 2
-  gCtx.textAlign = line.align
-  switch (line.direction) {
-    case 'bottom':
-      gCtx.textBaseline = 'bottom'
-      gCtx.fillText(
-        line.txt,
-        gElCanvas.width / 2,
-        gElCanvas.height,
-        gElCanvas.width
-      )
-      gCtx.strokeText(
-        line.txt,
-        gElCanvas.width / 2,
-        gElCanvas.height,
-        gElCanvas.width
-      )
-      break
-    default:
-      gCtx.textBaseline = 'top'
-      gCtx.fillText(line.txt, gElCanvas.width / 2, 0, gElCanvas.width)
-      gCtx.strokeText(line.txt, gElCanvas.width / 2, 0, gElCanvas.width)
-  }
+  gCtx.strokeStyle = strokeColor
+  gCtx.fillStyle = color
+  gCtx.font = `${size}px ${fontType}`
+  gCtx.textAlign = align
+  gCtx.textBaseline = direction
+  gCtx.fillText(txt, pos.x, pos.y, gElCanvas.width)
+  gCtx.strokeText(txt, pos.x, pos.y, gElCanvas.width)
+  drawAroundTxt()
 }
 
-// function drawText(line) {
-//   console.log(line)
-//   // const txt = getMemeTxt()
-//   gCtx.font = `${getFontSize()}px ${getFontType(0)}`
-//   gCtx.fillStyle = getTxtColor(0)
-//   gCtx.strokeStyle = getTxtStroke(0)
-//   gCtx.lineWidth = 2
-//   gCtx.textAlign = getAlign(0)
-//   switch (getLineDirection()) {
-//     case 'bottom':
-//       gCtx.textBaseline = 'bottom'
-//       gCtx.fillText(txt, gElCanvas.width / 2, gElCanvas.height, gElCanvas.width)
-//       gCtx.strokeText(
-//         txt,
-//         gElCanvas.width / 2,
-//         gElCanvas.height,
-//         gElCanvas.width
-//       )
-//       break
-//     default:
-//       gCtx.textBaseline = 'top'
-//       gCtx.fillText(txt, gElCanvas.width / 2, 0, gElCanvas.width)
-//       gCtx.strokeText(txt, gElCanvas.width / 2, 0, gElCanvas.width)
-//   }
-// }
+function drawAroundTxt() {
+  var { txt, pos, size } = getCurrLine()
+  setLineWidth(gCtx.measureText(txt).width)
+  var LineWidth = getLineWidth()
+  gCtx.strokeStyle = 'white'
+  gCtx.strokeRect(pos.x - LineWidth, pos.y - size, LineWidth * 2, size * 2)
+}
 
-function onAddLine(txt) {
-  setMemeTxt(txt)
-  drawMeme(getCurrMemeIdx())
+function onAddLine() {
+  var txt = document.querySelector('.line-input').value
+  if (!txt) return
+  addLine(txt)
+  onSwitchLine()
+  drawMeme()
 }
 
 function onFontSizeChange(diff) {
   setFontSize(diff)
-  drawMeme(getCurrMemeIdx())
+  drawMeme()
 }
 
-function onMoveLine(direction) {
-  setLineDirection(direction)
-  drawMeme(getCurrMemeIdx())
+function onMoveLine(diff) {
+  setLinePos(gElCanvas.height, +diff)
+  drawMeme()
 }
 
-function clearCanvas() {
-  gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+function onSwitchLine() {
+  setLineIdx()
+  drawMeme()
+  document.querySelector('.line-input').value = getLineTxt()
 }
-
-function onSwitchLine() {}
 
 function onChangeAlign(align) {
-  setAlign(0, align)
-  drawMeme(getCurrMemeIdx())
+  setAlign(align)
+  drawMeme()
 }
 
 function onChangeFontColor(color) {
-  setTxtColor(0, color)
-  drawMeme(getCurrMemeIdx())
+  setTxtColor(color)
+  drawMeme()
 }
 
 function onChangeStroke(color) {
-  setTxtStroke(0, color)
-  drawMeme(getCurrMemeIdx())
+  setTxtStroke(color)
+  drawMeme()
 }
 
 function onChangeFont(fontType) {
-  setFontType(0, fontType)
-  drawMeme(getCurrMemeIdx())
+  setFontType(fontType)
+  drawMeme()
 }
 
 function onDownload(elLink) {
@@ -146,4 +99,50 @@ function onDownload(elLink) {
 
 function onShareMeme() {
   uploadImg()
+}
+
+function onDeleteLine() {
+  deleteLine()
+  drawMeme()
+}
+
+function addListeners() {
+  addMouseListeners()
+  addTouchListeners()
+}
+
+function addMouseListeners() {
+  // gElCanvas.addEventListener('mousemove', onMove)
+  gElCanvas.addEventListener('mousedown', onDown)
+  // gElCanvas.addEventListener('mouseup', onUp)
+}
+
+function addTouchListeners() {
+  // gElCanvas.addEventListener('touchmove', onMove)
+  gElCanvas.addEventListener('touchstart', onDown)
+  // gElCanvas.addEventListener('touchend', onUp)
+}
+
+function onDown(ev) {
+  const pos = getEvPos(ev)
+  if (!isLineClicked(pos)) return
+  setCircleDrag(true)
+  gStartPos = pos
+  document.body.style.cursor = 'grabbing'
+}
+
+function getEvPos(ev) {
+  var pos = {
+    x: ev.offsetX,
+    y: ev.offsetY,
+  }
+  if (gTouchEvs.includes(ev.type)) {
+    ev.preventDefault()
+    ev = ev.changedTouches[0]
+    pos = {
+      x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+      y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+    }
+  }
+  return pos
 }

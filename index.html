@@ -27,7 +27,7 @@
       </div>
     </header>
 
-    <main class="main-content main-layout">
+    <main class="main-content main-layout flex align-center center">
       <div class="editor-panel flex hidden">
         <section class="canvas-container">
           <canvas class="meme-canvas" width="546" height="476"></canvas>
@@ -37,21 +37,20 @@
         <section class="control-box flex align-center space-between">
           <input
             type="text"
-            placeholder="CAN’T GET FIRED"
+            placeholder="NEW TEXT"
             name="line-input"
             class="line-input"
-            oninput="onAddLine(this.value)"
+            oninput=""
           />
 
           <div class="line-controls flex align-center space-between">
-            <button class="moveup-btn" onclick="onMoveLine('top')"></button>
-            <button
-              class="movedown-btn"
-              onclick="onMoveLine('bottom')"
-            ></button>
+            <button class="moveup-btn" onclick="onMoveLine('-10')"></button>
+            <button class="movedown-btn" onclick="onMoveLine('10')"></button>
             <button class="switch-btn" onclick="onSwitchLine()"></button>
-            <button class="add-btn" onclick=""><span>+</span></button>
-            <button class="delete-btn"></button>
+            <button class="add-btn" onclick="onAddLine()">
+              <span>+</span>
+            </button>
+            <button class="delete-btn" onclick="onDeleteLine()"></button>
           </div>
 
           <div class="text-controls flex align-center">
@@ -64,7 +63,7 @@
               </button>
               <button
                 class="align-left"
-                onclick="onChangeAlign('left')"
+                onclick="onChangeAlign('end')"
               ></button>
               <button
                 class="align-center"
@@ -72,7 +71,7 @@
               ></button>
               <button
                 class="align-right"
-                onclick="onChangeAlign('right')"
+                onclick="onChangeAlign('start')"
               ></button>
             </div>
             <div class="text-customs flex space-between">
