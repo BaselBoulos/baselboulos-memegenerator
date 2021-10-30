@@ -2,15 +2,8 @@
 
 var gImgId = 1
 var gCategories = {}
-var gCategoryPopularity = {
-  politics: 16,
-  animals: 27,
-  kids: 20,
-  celeb: 32,
-  love: 15,
-  happy: 22,
-  nature: 13,
-}
+var gCategoryPopularity = {}
+
 var gImgs = [
   {
     id: gImgId++,
@@ -158,6 +151,24 @@ function setCategories() {
     return acc
   }, {})
   gCategories = categoryMap
+  // Dummy data for start ( goal of this is for visual only )
+  gCategories.funny = 12
+  gCategories.travel = 32
+  gCategories.sad = 22
+  gCategories.coding = 29
+  gCategories.music = 20
+  gCategories.running = 12
+  gCategories.swimming = 5
+  gCategories.gentleman = 16
+  gCategories.clothes = 16
+  gCategories.coffee = 8
+  initDummyData()
+}
+
+function initDummyData() {
+  for (let category in gCategories) {
+    gCategoryPopularity[category] = getRandomInt(8, 32)
+  }
 }
 
 function getFilteredImgs(category) {

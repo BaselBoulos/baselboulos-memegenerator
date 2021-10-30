@@ -4,6 +4,9 @@ var gElCanvas
 var gCtx
 var gStartMovePos
 
+// IsSaving not finished,
+var isSaving = false
+
 function onMemeSelect(memeIdx) {
   gElCanvas = document.querySelector('.meme-canvas')
   gCtx = gElCanvas.getContext('2d')
@@ -28,28 +31,44 @@ function drawMeme() {
 function drawLines() {
   let lines = getMemeLines()
   if (!lines.length) return
+  lines.map((line) => _drawLine(line))
+  if (!isSaving) _drawLineBorder()
+}
+
+function _drawLine(line) {
+  var { txt, size, align, color, strokeColor, baseLine, fontType, pos } = line
+  gCtx.lineWidth = 2
+  gCtx.strokeStyle = strokeColor
+  gCtx.fillStyle = color
+  gCtx.font = `${size}px ${fontType}`
+  gCtx.textAlign = align
+  gCtx.textBaseline = baseLine
+  gCtx.fillText(txt, pos.x, pos.y, gElCanvas.width)
+  gCtx.strokeText(txt, pos.x, pos.y, gElCanvas.width)
+}
+
+function addInput() {
+  /* UNUSED - STARTED AND UNFINISHED WITH INLINE CANVAS LINES */
+  let lines = getMemeLines()
+  var elCanvasLines = document.querySelector('.canvas-lines')
+  var strHtmls = ``
   lines.map((line) => {
     var { txt, size, align, color, strokeColor, baseLine, fontType, pos } = line
-    gCtx.lineWidth = 2
-    gCtx.strokeStyle = strokeColor
-    gCtx.fillStyle = color
-    gCtx.font = `${size}px ${fontType}`
-    gCtx.textAlign = align
-    gCtx.textBaseline = baseLine
-    gCtx.fillText(txt, pos.x, pos.y, gElCanvas.width)
-    gCtx.strokeText(txt, pos.x, pos.y, gElCanvas.width)
+    strHtmls += `<input class="canvas-input" value="${txt}" style=color:${color};font-size:${size}px;text-align:${align}; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: ${strokeColor};font-family:${fontType};/>`
   })
-  _drawLineBorder()
+  elCanvasLines.innerHTML = strHtmls
 }
 
 function _drawLineBorder() {
-  var { txt, pos, size, baseLine } = getCurrLine()
+  var line = getCurrLine()
+  _drawLine(line)
+  var { txt, pos, size, baseLine } = line
   var borderY = pos.y - 20
   if (baseLine === 'top') borderY = pos.y - 5
   if (baseLine === 'bottom') borderY = pos.y - size - 5
-  var LineWidth = gCtx.measureText(txt).width
+  var lineWidth = gCtx.measureText(txt).width
   gCtx.strokeStyle = 'red'
-  gCtx.strokeRect(pos.x - LineWidth, borderY, LineWidth * 2, size + 10)
+  gCtx.strokeRect(pos.x - lineWidth, borderY, lineWidth * 2, size + 10)
 }
 
 function onEditMode(isEdit) {

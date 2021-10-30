@@ -64,15 +64,15 @@ function addLine(txt) {
 function setLineSize(diff) {
   if (!gMeme.lines.length) return
   const currLineSize = gMeme.lines[gMeme.selectedLineIdx].size
-  if (currLineSize <= 0 && diff <= 0) return
-  gMeme.lines[gMeme.selectedLineIdx].size += diff
+  if (currLineSize >= 0 && currLineSize <= 3 && diff < 0)
+    gMeme.lines[gMeme.selectedLineIdx].size = 3
+  else gMeme.lines[gMeme.selectedLineIdx].size += diff
 }
 
 function setLinePos(canvasHeight, diff) {
   if (!gMeme.lines.length) return
   const currYPos = gMeme.lines[gMeme.selectedLineIdx].pos.y
   if (diff > 0 && currYPos + diff > canvasHeight) return
-  if (currYPos + diff < diff) return
   gMeme.lines[gMeme.selectedLineIdx].pos.y += diff
 }
 

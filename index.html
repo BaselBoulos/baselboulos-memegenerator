@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/gallery.css" />
     <link rel="stylesheet" href="styles/editor.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
   </head>
   <body onload="onInit()">
     <div class="main-screen" onclick="toggleMenu()"></div>
@@ -20,8 +24,8 @@
               >Gallery</a
             >
           </li>
-          <li><a href="#" onclick="">Memes</a></li>
-          <li><a href="#">About</a></li>
+          <li><a href="#" onclick="" style="opacity: 0.1">Memes</a></li>
+          <li><a href="#" style="opacity: 0.1">About</a></li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
       </div>
@@ -29,6 +33,7 @@
     <main class="main-content main-layout flex align-center center">
       <div class="editor-panel flex hidden align-center">
         <section class="canvas-container">
+          <!-- <div class="canvas-lines"></div> -->
           <canvas class="meme-canvas" width="546"></canvas>
         </section>
         <section class="control-box flex align-center space-between">
@@ -95,9 +100,7 @@
               </button>
             </div>
           </div>
-
-          <div class="stickers-container">STICKERS</div>
-
+          <!-- <div class="stickers-container">STICKERS</div> -->
           <div class="social-container">
             <button class="share-btn" onclick="onShare()">Share</button>
             <a
@@ -126,7 +129,6 @@
           </div>
         </section>
       </div>
-
       <div class="gallery-container main-layout">
         <div class="search-container flex lign-center space-between">
           <input
@@ -136,18 +138,16 @@
             placeholder="Search category"
             list="category-list"
           />
+          <!-- <button><i class="fa fa-search"></i></button> -->
           <datalist id="category-list"></datalist>
-          <div class="search-keywords flex align-center space-between"></div>
-          <button>More</button>
+          <div class="search-keywords flex space-between"></div>
         </div>
         <div class="gallery"></div>
       </div>
     </main>
-
     <!-- <div class="saved-container main-layout hidden">
       <div class="saved-gallery"></div>
     </div> -->
-
     <footer class="main-footer">
       <div class="footer-container main-layout flex align-center center">
         <div class="copyrights">
@@ -155,11 +155,11 @@
         </div>
       </div>
     </footer>
-
     <script src="js/services/meme.service.js"></script>
     <script src="js/services/gallery.service.js"></script>
     <script src="js/services/upload.service.js"></script>
     <script src="js/services/storage.service.js"></script>
+    <script src="js/utils/utils.js"></script>
     <script src="js/controllers/meme.controller.js"></script>
     <script src="js/controllers/gallery.controller.js"></script>
     <script src="js/main.js"></script>
