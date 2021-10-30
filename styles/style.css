@@ -33,7 +33,6 @@
 /* BASIC */
 
 html {
-  /* background: linear-gradient(#f64f8b, #f88558); */
   background-color: #4834d4;
   background-image: linear-gradient(315deg, #4834d4 0%, #0c0c0c 74%);
   font-family: poppins-light;
@@ -46,8 +45,6 @@ body {
 
 a {
   text-decoration: none;
-  color: #ffffff;
-  cursor: pointer;
 }
 
 button {
@@ -57,7 +54,6 @@ button {
 /* LAYOUT */
 
 .main-layout {
-  /* max-width: 1245px; */
   margin: 0 auto;
 }
 
@@ -65,11 +61,11 @@ button {
 
 /* Main Header */
 
-.main-header {
-  margin: 15px 7px;
-  /* background: linear-gradient(to left, #33be6d, #0c98b9); */
+.main-header,
+.main-footer {
   background-color: #000000;
   background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
+  margin: 15px 7px;
   border-radius: 36.5px;
 }
 
@@ -79,8 +75,13 @@ button {
 }
 
 .header-container > * {
+  color: #ffffff;
   font-size: 1.2rem;
   font-family: Poppins-Medium, monospace;
+}
+
+.header-container button {
+  cursor: pointer;
 }
 
 .header-container .logo {
@@ -91,6 +92,7 @@ button {
 /* main nav */
 
 .main-nav > li a {
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,17 +102,9 @@ button {
 
 /* FOOTER */
 
-.main-footer {
-  /* background: linear-gradient(to left, #33be6d, #0c98b9); */
-  background-color: #000000;
-  background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
-  margin: 15px 7px;
-  border-radius: 36.5px;
-}
-
 .main-footer .copyrights {
-  color: white;
-  font-size: 1.2rem;
+  color: #ffffff;
+  font-size: 0.812rem;
 }
 
 /* HELPERS */
@@ -162,17 +156,27 @@ body.menu-open .main-screen {
 }
 
 /* property used to hide elements */
+
 .hidden {
   display: none;
 }
 
-/* Current page */
+/* Current page focus */
 
 .current {
-  padding: 0.625em 1.875em;
-  color: #21ac91;
-  background-color: #fefefe;
-  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  border-radius: 1.2em;
+}
+
+/* Text Helpers */
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 /* BP */
@@ -194,7 +198,8 @@ body.menu-open .main-screen {
     right: 0;
     height: 100vh;
     flex-direction: column;
-    background-color: #33be6d;
+    background-color: #4834d4;
+    background-image: linear-gradient(315deg, #4834d4 0%, #0c0c0c 74%);
     opacity: 0.96;
     transform: translateX(100%);
     transition: transform 0.6s, box-shadow 0.6s;
@@ -213,12 +218,6 @@ body.menu-open .main-screen {
 }
 
 /* small */
-
-/* @media (min-width: 600px) and (max-width: 1020px) {
-  html {
-    font-size: 14px;
-  }
-} */
 
 @media (min-width: 600px) {
   .main-layout {

@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/gallery.css" />
     <link rel="stylesheet" href="styles/editor.css" />
-    <link rel="stylesheet" href="styles/memes.css" />
   </head>
   <body onload="onInit()">
     <div class="main-screen" onclick="toggleMenu()"></div>
@@ -17,60 +16,58 @@
         <div class="logo">memes4ever</div>
         <ul class="main-nav clean-list flex">
           <li>
-            <a href="#" onclick="onShowGallery()" class="gallery-nav"
+            <a href="#" onclick="onShowGallery()" class="current gallery-nav"
               >Gallery</a
             >
           </li>
-          <li><a href="#" onclick="loadSavedMemes()">Memes</a></li>
+          <li><a href="#" onclick="">Memes</a></li>
           <li><a href="#">About</a></li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
       </div>
     </header>
-
     <main class="main-content main-layout flex align-center center">
-      <div class="editor-panel flex hidden">
+      <div class="editor-panel flex hidden align-center">
         <section class="canvas-container">
-          <canvas class="meme-canvas" width="546" height="476"></canvas>
+          <canvas class="meme-canvas" width="546"></canvas>
         </section>
-
         <section class="control-box flex align-center space-between">
           <input
             type="text"
             placeholder="NEW TEXT"
             name="line-input"
             class="line-input"
-            oninput="onEditLine(this.value)"
-            onfocus="editMode('on')"
-            onfocusout="editMode('off')"
+            oninput="onEditLineTxt(this.value)"
+            onfocus="onEditMode('on')"
+            onfocusout="onEditMode('off')"
             readonly
           />
           <div class="line-controls flex align-center space-between">
             <button class="moveup-btn" onclick="onMoveLine('-10')"></button>
             <button class="movedown-btn" onclick="onMoveLine('10')"></button>
-            <button class="switch-btn" onclick="onSwitchLine()"></button>
+            <button class="switch-btn" onclick="onSwitchLineFocus()"></button>
             <button class="add-btn" onclick="onAddLine()">+</button>
-            <button class="delete-btn" onclick="onDeleteLine()"></button>
+            <button class="delete-btn" onclick="onRemoveLine()"></button>
           </div>
           <div class="text-controls flex align-center">
             <div class="text-aligns flex space-between">
-              <button class="increase-font" onclick="onFontSizeChange(3)">
+              <button class="increase-font" onclick="onLineSizeChange(3)">
                 A+
               </button>
-              <button class="decrease-font" onclick="onFontSizeChange(-3)">
+              <button class="decrease-font" onclick="onLineSizeChange(-3)">
                 A-
               </button>
               <button
                 class="align-left"
-                onclick="onChangeAlign('end')"
+                onclick="onChangeTxtAlign('end')"
               ></button>
               <button
                 class="align-center"
-                onclick="onChangeAlign('center')"
+                onclick="onChangeTxtAlign('center')"
               ></button>
               <button
                 class="align-right"
-                onclick="onChangeAlign('start')"
+                onclick="onChangeTxtAlign('start')"
               ></button>
             </div>
             <div class="text-customs flex space-between">
@@ -85,7 +82,7 @@
                   type="color"
                   value="#000000"
                   class="stroke-input"
-                  onchange="onChangeStroke(this.value)"
+                  onchange="onChangeTxtStroke(this.value)"
                 />
               </button>
               <button class="font-color">
@@ -93,16 +90,16 @@
                   type="color"
                   value="#ffffff"
                   class="fontcolor-input"
-                  onchange="onChangeFontColor(this.value)"
+                  onchange="onChangeTxtColor(this.value)"
                 />
               </button>
             </div>
           </div>
 
-          <div class="stickers-container">HERE IS STICKERS</div>
+          <div class="stickers-container">STICKERS</div>
 
-          <div class="social-container flex align-center">
-            <button class="share-btn" onclick="onShareMeme()">Share</button>
+          <div class="social-container">
+            <button class="share-btn" onclick="onShare()">Share</button>
             <a
               href="#"
               class="download"
@@ -111,7 +108,9 @@
             >
               Download
             </a>
-            <input
+          </div>
+          <div class="manage-meme">
+            <!-- <input
               class="upload"
               type="file"
               onchange="onImgInput(event)"
@@ -122,32 +121,33 @@
               type="button"
               value="Upload"
               onclick="uploadImgToCanvas()"
-            />
-            <button onclick="saveMeme()">Save</button>
+            /> -->
+            <button class="save-btn" onclick="saveMeme()">Save</button>
           </div>
         </section>
       </div>
+
+      <div class="gallery-container main-layout">
+        <div class="search-container flex lign-center space-between">
+          <input
+            type="search"
+            class="search-input"
+            oninput="onSetFilter(this.value)"
+            placeholder="Search category"
+            list="category-list"
+          />
+          <datalist id="category-list"></datalist>
+          <div class="search-keywords flex align-center space-between"></div>
+          <button>More</button>
+        </div>
+        <div class="gallery"></div>
+      </div>
     </main>
 
-    <div class="gallery-container main-layout">
-      <div class="search-container flex align-center space-between">
-        <input
-          type="search"
-          class="search-input"
-          oninput="onSetFilter(this.value)"
-          placeholder="Search category"
-          list="category-list"
-        />
-        <datalist id="category-list"></datalist>
-
-        <div class="search-keywords flex align-center space-between"></div>
-      </div>
-      <div class="gallery"></div>
-    </div>
-
-    <div class="saved-container main-layout hidden">
+    <!-- <div class="saved-container main-layout hidden">
       <div class="saved-gallery"></div>
-    </div>
+    </div> -->
+
     <footer class="main-footer">
       <div class="footer-container main-layout flex align-center center">
         <div class="copyrights">
