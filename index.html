@@ -17,7 +17,8 @@
     <div class="main-screen" onclick="toggleMenu()"></div>
     <header class="main-header">
       <div class="header-container main-layout flex align-center space-between">
-        <div class="logo">memes4ever</div>
+        <a href="index.html" class="logo">memes generator</a>
+        <img class="logo-img" src="img/logo.png" alt="" />
         <ul class="main-nav clean-list flex">
           <li>
             <a href="#" onclick="onShowGallery()" class="current gallery-nav"
@@ -33,7 +34,7 @@
     <main class="main-content main-layout flex align-center center">
       <div class="editor-panel flex hidden align-center">
         <section class="canvas-container">
-          <!-- <div class="canvas-lines"></div> -->
+          <div class="canvas-lines hidden"></div>
           <canvas class="meme-canvas" width="546"></canvas>
         </section>
         <section class="control-box flex align-center space-between">
@@ -47,6 +48,7 @@
             onfocusout="onEditMode('off')"
             readonly
           />
+          <span>Dbl click line on canvas to edit</span>
           <div class="line-controls flex align-center space-between">
             <button class="moveup-btn" onclick="onMoveLine('-10')"></button>
             <button class="movedown-btn" onclick="onMoveLine('10')"></button>
@@ -64,7 +66,7 @@
               </button>
               <button
                 class="align-left"
-                onclick="onChangeTxtAlign('end')"
+                onclick="onChangeTxtAlign('left')"
               ></button>
               <button
                 class="align-center"
@@ -72,7 +74,7 @@
               ></button>
               <button
                 class="align-right"
-                onclick="onChangeTxtAlign('start')"
+                onclick="onChangeTxtAlign('right')"
               ></button>
             </div>
             <div class="text-customs flex space-between">
@@ -125,7 +127,9 @@
               value="Upload"
               onclick="uploadImgToCanvas()"
             /> -->
-            <button class="save-btn" onclick="saveMeme()">Save</button>
+            <button class="save-btn" onclick="alert('nope....not ready yet')">
+              Save
+            </button>
           </div>
         </section>
       </div>
@@ -150,6 +154,7 @@
     </div> -->
     <footer class="main-footer">
       <div class="footer-container main-layout flex align-center center">
+        <img class="logo-img" src="img/logo.png" alt="" />
         <div class="copyrights">
           © 2021 Basel Boulos - Sprint 2 Coding Academy
         </div>

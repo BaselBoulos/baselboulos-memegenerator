@@ -162,10 +162,10 @@ function setCategories() {
   gCategories.gentleman = 16
   gCategories.clothes = 16
   gCategories.coffee = 8
-  initDummyData()
+  _initDummyData()
 }
 
-function initDummyData() {
+function _initDummyData() {
   for (let category in gCategories) {
     gCategoryPopularity[category] = getRandomInt(8, 32)
   }

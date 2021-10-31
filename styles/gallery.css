@@ -14,6 +14,7 @@
 
 .search-container {
   margin-bottom: 10px;
+  gap: 25px;
 }
 
 .search-container .search-input {
@@ -74,10 +75,10 @@
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
   grid-auto-flow: dense;
-  grid-gap: 30px;
+  grid-gap: 15px;
   overflow: hidden;
 }
 

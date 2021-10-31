@@ -3,7 +3,7 @@
 var gMeme
 var gLineId = 0
 
-function createMeme(memeIdx) {
+function _createMeme(memeIdx) {
   gMeme = {
     selectedImgId: memeIdx,
     selectedLineIdx: 0,
@@ -11,16 +11,17 @@ function createMeme(memeIdx) {
   }
 }
 
-function createLine(baseLine, pos, txt) {
+function _createLine(baseLine, pos, txt) {
   const line = {
     txt,
-    size: 25,
+    size: 35,
     color: 'white',
     strokeColor: 'black',
     fontType: 'impact',
     align: 'center',
     baseLine,
     isDrag: false,
+    isEdit: false,
     pos,
   }
   gMeme.lines.push(line)
@@ -38,7 +39,6 @@ function getCurrMemeImg() {
 }
 
 function setLineTxt(newTxt) {
-  if (!gMeme.lines.length) return
   gMeme.lines[gMeme.selectedLineIdx].txt = newTxt
 }
 
@@ -58,7 +58,7 @@ function addLine(txt) {
     baseLine = 'bottom'
     pos.y = gElCanvas.height
   }
-  createLine(baseLine, pos, txt)
+  _createLine(baseLine, pos, txt)
 }
 
 function setLineSize(diff) {
@@ -127,6 +127,10 @@ function _isLine(clickedPos, pos, lineIdx) {
 function setLineDrag(isDrag) {
   if (!gMeme.lines.length) return
   gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag
+}
+
+function setLineEdit(isEdit) {
+  gMeme.lines[gMeme.selectedLineIdx].isEdit = isEdit
 }
 
 function moveLine(dx, dy) {

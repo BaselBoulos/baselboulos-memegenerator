@@ -84,9 +84,14 @@ button {
   cursor: pointer;
 }
 
-.header-container .logo {
+.header-container .logo,
+.footer-container .logo {
   color: #ffffff;
   text-transform: uppercase;
+}
+
+.logo-img {
+  height: 73px;
 }
 
 /* main nav */
@@ -121,7 +126,8 @@ button {
   cursor: pointer;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.6s;
+  transition: opacity 0.3s;
+  z-index: 100000;
 }
 
 body.menu-open .main-screen {

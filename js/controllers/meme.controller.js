@@ -6,33 +6,36 @@ var gStartMovePos
 
 // IsSaving not finished,
 var isSaving = false
+var isEditMode = false
 
 function onMemeSelect(memeIdx) {
   gElCanvas = document.querySelector('.meme-canvas')
   gCtx = gElCanvas.getContext('2d')
   document.querySelector('.editor-panel').classList.remove('hidden')
   document.querySelector('.gallery-container').classList.add('hidden')
-  createMeme(memeIdx)
-  addListeners()
-  drawMeme()
+  _createMeme(memeIdx)
+  _addListeners()
+  _drawMeme()
 }
 
-function drawMeme() {
+function _drawMeme() {
   var memeImg = new Image()
   memeImg.onload = () => {
     // Aspect ratio
     gElCanvas.height = (memeImg.height * gElCanvas.width) / memeImg.width
     gCtx.drawImage(memeImg, 0, 0, gElCanvas.width, gElCanvas.height)
-    drawLines()
+    _drawLines()
   }
   memeImg.src = getCurrMemeImg()
 }
 
-function drawLines() {
-  let lines = getMemeLines()
+function _drawLines() {
+  var lines = getMemeLines()
   if (!lines.length) return
-  lines.map((line) => _drawLine(line))
-  if (!isSaving) _drawLineBorder()
+  lines.map((line) => {
+    if (!line.isEdit) _drawLine(line)
+  })
+  if (!isSaving && !isEditMode) _drawLineBorder()
 }
 
 function _drawLine(line) {
@@ -47,96 +50,123 @@ function _drawLine(line) {
   gCtx.strokeText(txt, pos.x, pos.y, gElCanvas.width)
 }
 
-function addInput() {
-  /* UNUSED - STARTED AND UNFINISHED WITH INLINE CANVAS LINES */
-  let lines = getMemeLines()
-  var elCanvasLines = document.querySelector('.canvas-lines')
+function _renderInlineInput() {
+  const line = getCurrLine()
+  const { txt, size, align, color, strokeColor, baseLine, fontType, pos } = line
   var strHtmls = ``
-  lines.map((line) => {
-    var { txt, size, align, color, strokeColor, baseLine, fontType, pos } = line
-    strHtmls += `<input class="canvas-input" value="${txt}" style=color:${color};font-size:${size}px;text-align:${align}; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: ${strokeColor};font-family:${fontType};/>`
-  })
+  var borderY = pos.y - 20 // Middle line
+  if (baseLine === 'top') borderY = pos.y - 5 // Top Line
+  if (baseLine === 'bottom') borderY = pos.y - size - 5 // Bottom line
+  strHtmls += `
+    <input class="canvas-input" type="text" value="${txt}" oninput="onEditLineTxt(this.value)" onkeyup=handleEnter(this,event) style="color:${color};font-size:${size}px;text-align:${align}; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: ${strokeColor};font-family:${fontType};top:${borderY}px;"/>`
+  const elCanvasLines = document.querySelector('.canvas-lines')
   elCanvasLines.innerHTML = strHtmls
+  _toggleInlineInput()
+  setLineTxt('')
+  setLineEdit(true)
+  isEditMode = true
+  _drawMeme()
+}
+
+function _toggleInlineInput() {
+  const elCanvasLines = document.querySelector('.canvas-lines')
+  elCanvasLines.classList.toggle('hidden')
+}
+
+function handleEnter(elInlineInput, e) {
+  const keyCode = e.keyCode
+  if (keyCode === 13) {
+    _toggleInlineInput()
+    setLineTxt(elInlineInput.value)
+    setLineEdit(false)
+    isEditMode = false
+    _drawMeme()
+  }
+}
+
+function onEditLineTxt(newTxt) {
+  setLineTxt(newTxt)
+  const elTxtInput = document.querySelector('.line-input')
+  elTxtInput.value = getLineTxt()
+  _drawMeme()
 }
 
 function _drawLineBorder() {
-  var line = getCurrLine()
-  _drawLine(line)
-  var { txt, pos, size, baseLine } = line
+  // Bug says, When the user resizes the font on the middle line only
+  // The border size is not fitting correctly
+  const line = getCurrLine()
+  _drawLine(line) // To update the canvas to the relevant line measures
+  const { txt, pos, size, baseLine } = line
   var borderY = pos.y - 20
   if (baseLine === 'top') borderY = pos.y - 5
   if (baseLine === 'bottom') borderY = pos.y - size - 5
-  var lineWidth = gCtx.measureText(txt).width
+  const lineWidth = gCtx.measureText(txt).width
   gCtx.strokeStyle = 'red'
   gCtx.strokeRect(pos.x - lineWidth, borderY, lineWidth * 2, size + 10)
 }
 
 function onEditMode(isEdit) {
-  var lineTxt = getLineTxt()
-  var elTxtInput = document.querySelector('.line-input')
+  const lineTxt = getLineTxt()
+  const elTxtInput = document.querySelector('.line-input')
   if (!lineTxt) addLine(elTxtInput.placeholder)
-  elTxtInput.value = isEdit === 'on' ? getLineTxt() : ''
   if (elTxtInput.hasAttribute('readonly'))
     elTxtInput.removeAttribute('readonly')
-  drawMeme()
+  elTxtInput.value = isEdit === 'on' ? getLineTxt() : ''
+  _drawMeme()
 }
 
 function onAddLine() {
-  var elTxtInput = document.querySelector('.line-input')
+  const elTxtInput = document.querySelector('.line-input')
   addLine(elTxtInput.placeholder)
-  drawMeme()
-}
-
-function onEditLineTxt(newTxt) {
-  setLineTxt(newTxt)
-  drawMeme()
+  _drawMeme()
 }
 
 function onLineSizeChange(diff) {
   setLineSize(diff)
-  drawMeme()
+  _drawMeme()
 }
 
 function onMoveLine(diff) {
   setLinePos(gElCanvas.height, +diff)
-  drawMeme()
+  _drawMeme()
 }
 
 function onSwitchLineFocus() {
   if (!getLineTxt()) return
   switchLineFocus()
-  var elTxtInput = document.querySelector('.line-input')
+  const elTxtInput = document.querySelector('.line-input')
   elTxtInput.value = getLineTxt()
-  drawMeme()
+  _drawMeme()
 }
 
 function onChangeTxtAlign(align) {
   setTxtAlign(align)
-  drawMeme()
+  _drawMeme()
 }
 
 function onChangeTxtColor(color) {
   setTxtColor(color)
-  drawMeme()
+  _drawMeme()
 }
 
 function onChangeTxtStroke(color) {
   setTxtStroke(color)
-  drawMeme()
+  _drawMeme()
 }
 
 function onChangeFont(fontFamily) {
   setFontFamily(fontFamily)
-  drawMeme()
+  _drawMeme()
 }
 
 function onRemoveLine() {
   removeLine()
-  drawMeme()
+  switchLineFocus()
+  _drawMeme()
 }
 
 function onDownload(elLink) {
-  var imgContent = gElCanvas.toDataURL('image/jpeg')
+  const imgContent = gElCanvas.toDataURL('image/jpeg')
   elLink.href = imgContent
 }
 
@@ -144,8 +174,9 @@ function onShare() {
   uploadImg()
 }
 
-function addListeners() {
+function _addListeners() {
   gElCanvas.addEventListener('mousedown', onDown)
+  gElCanvas.addEventListener('dblclick', onDblClick)
   gElCanvas.addEventListener('touchstart', onDown)
   gElCanvas.addEventListener('mouseup', onUp)
   gElCanvas.addEventListener('touchend', onUp)
@@ -154,38 +185,47 @@ function addListeners() {
 }
 
 function onDown(ev) {
-  const pos = getEvPos(ev)
+  if (isEditMode) return
+  const pos = _getEvPos(ev)
   if (!isPosLine(pos)) return
   setLineDrag(true)
   gStartMovePos = pos
-  var elMemeCanvas = document.querySelector('.meme-canvas')
+  const elMemeCanvas = document.querySelector('.meme-canvas')
   elMemeCanvas.style.cursor = 'grabbing'
-  var elTxtInput = document.querySelector('.line-input')
+  const elTxtInput = document.querySelector('.line-input')
   elTxtInput.value = getLineTxt()
-  drawMeme()
+  _drawMeme()
+}
+
+function onDblClick(ev) {
+  if (isEditMode) return
+  const pos = _getEvPos(ev)
+  if (!isPosLine(pos)) return
+  _renderInlineInput()
 }
 
 function onUp() {
   setLineDrag(false)
-  var elMemeCanvas = document.querySelector('.meme-canvas')
+  const elMemeCanvas = document.querySelector('.meme-canvas')
   elMemeCanvas.style.cursor = 'grab'
 }
 
 function onMove(ev) {
+  if (isEditMode) return
   const line = getCurrLine()
   if (!line) return
   if (line.isDrag) {
-    const pos = getEvPos(ev)
+    const pos = _getEvPos(ev)
     const dx = pos.x - gStartMovePos.x
     const dy = pos.y - gStartMovePos.y
     gStartMovePos = pos
     moveLine(dx, dy)
-    drawMeme()
+    _drawMeme()
   }
 }
 
-function getEvPos(ev) {
-  var pos = {
+function _getEvPos(ev) {
+  const pos = {
     x: ev.offsetX,
     y: ev.offsetY,
   }

@@ -27,7 +27,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
 }
 
 function share(url) {
-  console.log(url)
   if (navigator.share) {
     navigator
       .share({
