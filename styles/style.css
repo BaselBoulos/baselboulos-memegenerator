@@ -5,7 +5,7 @@
 /* TYPOGRAPHY */
 @font-face {
   font-family: poppins-medium;
-  src: url(/fonts/Poppins-Medium.ttf);
+  src: url(../fonts/Poppins-Medium.ttf);
 }
 
 @font-face {
