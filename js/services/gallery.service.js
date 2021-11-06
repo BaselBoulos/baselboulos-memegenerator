@@ -158,10 +158,6 @@ function setCategories() {
   gCategories.coding = 29
   gCategories.music = 20
   gCategories.running = 12
-  gCategories.swimming = 5
-  gCategories.gentleman = 16
-  gCategories.clothes = 16
-  gCategories.coffee = 8
   _initDummyData()
 }
 

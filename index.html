@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meme Generator - Basel</title>
+    <title>Meme Generator | Create Your Own Meme</title>
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/gallery.css" />
     <link rel="stylesheet" href="styles/editor.css" />
@@ -12,20 +12,27 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon" />
   </head>
   <body onload="onInit()">
     <div class="main-screen" onclick="toggleMenu()"></div>
     <header class="main-header">
       <div class="header-container main-layout flex align-center space-between">
-        <a href="index.html" class="logo">memes generator</a>
+        <a href="index.html" class="logo">meme generator</a>
         <ul class="main-nav clean-list flex">
           <li>
             <a href="#" onclick="onShowGallery()" class="current gallery-nav"
               >Gallery</a
             >
           </li>
-          <li><a href="#" onclick="" style="opacity: 0.1">Memes</a></li>
-          <li><a href="#" style="opacity: 0.1">About</a></li>
+          <li>
+            <a href="#" onclick="" style="opacity: 0.1; cursor: not-allowed"
+              >Memes</a
+            >
+          </li>
+          <li>
+            <a href="#" style="opacity: 0.1; cursor: not-allowed">About</a>
+          </li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
       </div>

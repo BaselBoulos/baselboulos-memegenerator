@@ -92,17 +92,18 @@ function onEditLineTxt(newTxt) {
 }
 
 function _drawLineBorder() {
-  // Bug says, When the user resizes the font on the middle line only
-  // The border size is not fitting correctly
   const line = getCurrLine()
   _drawLine(line) // To update the canvas to the relevant line measures
   const { txt, pos, size, baseLine } = line
-  var borderY = pos.y - 20
-  if (baseLine === 'top') borderY = pos.y - 5
-  if (baseLine === 'bottom') borderY = pos.y - size - 5
   const lineWidth = gCtx.measureText(txt).width
   gCtx.strokeStyle = 'red'
-  gCtx.strokeRect(pos.x - lineWidth, borderY, lineWidth * 2, size + 10)
+  // Bug says, When the user resizes the font on the middle line only
+  // The border size is not fitting correctly
+  var borderY = pos.y - size + 10
+  var borderX = pos.x - lineWidth / 2
+  if (baseLine === 'top') borderY = pos.y - 5
+  if (baseLine === 'bottom') borderY = pos.y - size - 5
+  gCtx.strokeRect(borderX - 10, borderY, lineWidth + 20, size + 10)
 }
 
 function onEditMode(isEdit) {
